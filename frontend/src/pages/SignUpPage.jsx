@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import disposableDomains from "disposable-email-domains";
 
 import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
@@ -13,11 +14,12 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-
+  const domain = formData.email.split("@")[1];
   const { signup, isSigningUp } = useAuthStore();
 
   //if the user doesnt put all the fields, it will just return some error
   const validateForm = () => {
+    if (disposableDomains.includes(domain)) return toast.error("Disposable email addresses are not allowed" );
     if (!formData.fullName.trim()) return toast.error("Full name is required");
     if (!formData.email.trim()) return toast.error("Email is required");
     if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");

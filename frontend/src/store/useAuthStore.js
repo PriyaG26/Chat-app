@@ -86,7 +86,7 @@ export const useAuthStore = create((set,get) => ({ //first arg is a callback fun
       set({ isUpdatingProfile: false });
     }
   },
-
+ 
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return; //if user is not authenticated, dont even try to connect to the socket
